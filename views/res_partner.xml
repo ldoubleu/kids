@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+	<data>
+
+		<record id="kids_view_res_partner_filter" model="ir.ui.view">
+			<field name="name">kids.view_partner_filter</field>
+			<field name="inherit_id" ref="partner_relations.partner_relations_view_res_partner_filter" />
+			<field name="model">res.partner</field>
+			<field name="arch" type="xml">
+				<data>
+					<field name="search_relation_partner_id" position="before">
+						<field name="search_kinder" filter_domain="[ '&amp;','&amp;', ('name', 'ilike', self), ('relation_all_ids.relation_id.type_id.id', '=', %(kids.kids_Beziehungsart_ElternKind)d), ('relation_all_ids.record_type', '=', 'b')]" />
+					</field>
+				</data>
+			</field>
+		</record>
+
+		<record id="kids_view_res_partner_filter2" model="ir.ui.view">
+			<field name="name">kids.view_partner_filter2</field>
+			<field name="inherit_id" ref="base.view_res_partner_filter" />
+			<field name="model">res.partner</field>
+			<field name="arch" type="xml">
+				<data>
+					<field name="name" position="before">
+						<!-- <filter string="Kinder" domain="['&',('relation_all_ids.relation_id.type_id.id', '=', %(kids.kids_Beziehungsart_ElternKind)d), ('relation_all_ids.record_type', '=', 'b')]" /> -->
+						<filter string="Eltern" domain="['&amp;',('relation_all_ids.relation_id.type_id.id', '=', %(kids.kids_Beziehungsart_ElternKind)d), ('relation_all_ids.record_type', '=', 'a')]" />
+						<filter string="Kinder" domain="['&amp;',('relation_all_ids.relation_id.type_id.id', '=', %(kids.kids_Beziehungsart_ElternKind)d), ('relation_all_ids.record_type', '=', 'b')]" />
+					</field>
+				</data>
+			</field>
+		</record>
+
+
+
+		<record id="parents_children" model="ir.ui.view">
+			<field name="name">Kinder Sub-tab in contacts Form.</field>
+			<field name="model">res.partner</field>
+			<field name="inherit_id" ref="base.view_partner_form" />
+			<field name="priority">10</field>
+			<field name="arch" type="xml">
+				<data>
+					<xpath expr="//page[@name='internal_notes']" position="after">
+						<page string="Children" name="parents_children_page" attrs="{'invisible': [('is_Eltern', '=', False)]}">
+							<field name="is_Eltern" invisible="1" />
+							<field name="kinder_ids" mode="kanban"
+								context="{'default_category_id': [2], 'default_lastname': lastname, 'default_street': street, 'default_street2': street2, 'default_city': city, 'default_state_id': state_id, 'default_zip': zip, 'default_country_id': country_id}">
+								<kanban>
+									<field name="color" />
+									<field name="name" />
+									<field name="title" />
+									<field name="email" />
+									<field name="parent_id" />
+									<field name="is_company" />
+									<field name="phone" />
+									<field name="street" />
+									<field name="street2" />
+									<field name="zip" />
+									<field name="city" />
+									<field name="country_id" />
+									<field name="mobile" />
+									<field name="fax" />
+									<field name="state_id" />
+									<field name="has_image" />
+									<templates>
+										<t t-name="kanban-box">
+											<t t-set="color" t-value="kanban_color(record.color.raw_value)" />
+											<div t-att-class="color + (record.title.raw_value == 1 ? ' oe_kanban_color_alert' : '')" style="position: relative">
+												<a t-if="! read_only_mode" type="delete" style="position: absolute; right: 0; padding: 4px; diplay: inline-block">X</a>
+												<div class="oe_module_vignette">
+													<a type="open">
+														<t t-if="record.has_image.raw_value === true">
+															<img t-att-src="kanban_image('res.partner', 'image_small', record.id.value)" class="oe_avatar oe_kanban_avatar_smallbox" />
+														</t>
+														<t t-if="record.image and record.image.raw_value !== false">
+															<img t-att-src="'data:image/png;base64,'+record.image.raw_value" class="oe_avatar oe_kanban_avatar_smallbox" />
+														</t>
+														<t t-if="record.has_image.raw_value === false and (!record.image or record.image.raw_value === false)">
+															<img t-att-src='_s + "/base/static/src/img/avatar.png"' class="oe_kanban_image oe_kanban_avatar_smallbox" />
+														</t>
+													</a>
+													<div class="oe_module_desc">
+														<div class="oe_kanban_box_content oe_kanban_color_bglight oe_kanban_color_border">
+															<table class="oe_kanban_table">
+																<tr>
+																	<td class="oe_kanban_title1" align="left" valign="middle">
+																		<h4>
+																			<a type="open">
+																				<field name="firstname" />
+																			</a>
+																		</h4>
+																		<i>
+																			<div t-if="record.birthdate.raw_value">
+																				<field name="birthdate" />
+																			</div>
+																		</i>
+																		<div t-if="record.gender.raw_value">
+																			Geschl:
+																			<field name="gender" />
+																		</div>
+																	</td>
+																</tr>
+															</table>
+														</div>
+													</div>
+												</div>
+											</div>
+										</t>
+									</templates>
+								</kanban>
+								<form string="Kind">
+									<sheet>
+										<field name="image" widget='image' class="oe_avatar oe_left" options='{"preview_image": "image_medium"}' />
+										<div class="oe_title">
+											<label for="firstname" class="oe_edit_only" />
+											<h1>
+												<field name="firstname" style="width: 70%%" />
+											</h1>
+											<field name="category_id" widget="many2many_tags" placeholder="Tags..." style="width: 70%%" />
+										</div>
+										<group>
+											<!-- <field name="function" placeholder="e.g. Sales Director" /> -->
+											<field name="birthdate_date" style="width: 30%%" />
+											<field name="gender" style="width: 30%%" />
+										</group>
+										<div>
+											<field name="use_parent_address" />
+											<label for="use_parent_address" />
+										</div>
+										<group>
+											<!-- <label for="type" /> -->
+											<!-- <div name="div_type"> -->
+											<!-- <field class="oe_inline" name="type" /> -->
+											<!-- </div> -->
+											<label for="street" string="Address" attrs="{'invisible': [('use_parent_address','=', True)]}" />
+											<div attrs="{'invisible': [('use_parent_address','=', True)]}" name="div_address">
+												<field name="street" placeholder="Street..." />
+												<field name="street2" />
+												<div class="address_format">
+													<field name="city" placeholder="City" style="width: 40%%" />
+													<field name="state_id" class="oe_no_button" placeholder="State" style="width: 37%%" options='{"no_open": True}' on_change="onchange_state(state_id)" />
+													<field name="zip" placeholder="ZIP" style="width: 20%%" />
+												</div>
+												<field name="country_id" placeholder="Country" class="oe_no_button" options='{"no_open": True, "no_create": True}' />
+											</div>
+										</group>
+										<field name="supplier" invisible="True" />
+										<field name="customer" invisible="True" />
+									</sheet>
+								</form>
+							</field>
+						</page>
+						<!-- <field name="kinder_ids" widget="many2many"/> context="{'default_partner_id': active_id, 'form_view_ref': 'base.view_partner_bank_form'}"> -->
+						<!-- <tree string="Kinder"> -->
+						<!-- <field name="firstname" /> -->
+						<!-- <field name="birthdate" /> -->
+						<!-- </tree> -->
+						<!-- </field> -->
+						<!-- <field name="bank_ids" context="{'default_partner_id': active_id, 'form_view_ref': 'base.view_partner_bank_form'}" modifiers="{}" /> -->
+					</xpath>
+				</data>
+			</field>
+		</record>
+
+
+
+	</data>
+</openerp>
+

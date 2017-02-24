@@ -1,0 +1,83 @@
+# -*- coding: utf-8 -*-
+# © 2016 Grupo ESOC Ingeniería de Servicios, S.L.U. - Jairo Llopis
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
+
+# Partner(=Kunden)-Kategorien
+
+
+- !record {model: res.partner.category, id: res_partner_category_Eltern}:
+    name: Eltern
+    active: True
+- !record {model: res.partner.category, id: res_partner_category_Kind}:
+    name: Kind
+    active: True
+- !record {model: res.partner.category, id: res_partner_category_Bezugsperson}:
+    name: Bezugsperson
+    active: True
+- !record {model: res.partner.category, id: res_partner_category_Notfallkontakt}:
+    name: Notfallkontakt
+    active: True            
+- !record {model: res.partner.category, id: res_partner_category_Abhohler}:
+    name: Abholer
+    active: True
+- !record {model: res.partner.category, id: res_partner_category_Arzt}:
+    name: Arzt
+    active: True    
+    
+
+# Beziehungen
+- !record {model: res.partner.relation.type, id: kids_Beziehungsart_ElternKind}:
+    name: Eltern von
+    name_inverse: Kind von
+    contact_type_left: p
+    contact_type_right: p
+- !record {model: res.partner.relation.type, id: kids_Beziehungsart_Bezugsperson}:
+    name: Bezugsperson von
+    name_inverse: hat Bezugsperson
+    contact_type_left: p
+    contact_type_right: p    
+- !record {model: res.partner.relation.type, id: kids_Beziehungsart_Notfallkontakt}:
+    name: Notfallkontakt von
+    name_inverse: hat Notfallkontakt
+    contact_type_left: p
+    contact_type_right: p
+- !record {model: res.partner.relation.type, id: kids_Beziehungsart_Arzt}:
+    name: Arzt von
+    name_inverse: hat Arzt
+    contact_type_left: p
+    contact_type_right: p    
+- !record {model: res.partner.relation.type, id: kids_Beziehungsart_Abholer}:
+    name: Abholer von
+    name_inverse: hat Abholer
+    contact_type_left: p
+    contact_type_right: p    
+    
+        
+## Testeltern
+#- !record {model: res.partner, id: kids_TestEltern01}:
+#    lastname: Kägi
+#    firstname: Helga
+#    street_name: Brunaustrasse
+#    street_number: 55
+#    zip: 8044
+#    city: Zürich
+#    country_id: base.ch
+#    category_id:
+#        - kids.res_partner_category_Eltern
+#        
+#- !record {model: res.partner, id: kids_TestKind01}:
+#    lastname: Kägi
+#    firstname: Hannes
+#    street_name: Brunaustrasse
+#    street_number: 55
+#    zip: 8044
+#    city: Zürich
+#    country_id: base.ch
+#    category_id:
+#        - kids.res_partner_category_Kind       
+#        
+## Beziehung von Hannes zur Mutter        
+#- !record {model: res.partner.relation, id: kids_TestBeziehungKind01Eltern01}:
+#    left_partner_id: kids.kids_TestEltern01
+#    right_partner_id: kids.kids_TestKind01
+#    type_id: kids_Beziehungsart_ElternKind

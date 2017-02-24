@@ -1,0 +1,32 @@
+# tmp-dirs
+*tmp/*
+
+# buildout
+tools/*
+tools/bin
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+
+# C extensions
+*.so
+
+# Distribution / packaging
+bin/
+build/
+lib/
+
+# Unit test / coverage reports
+.tox/
+.coverage
+.cache
+nosetests.xml
+coverage.xml
+
+# Pycharm
+.idea
+
+# Backup files
+*~
+*.swp

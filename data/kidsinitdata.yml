@@ -1,0 +1,195 @@
+# -*- coding: utf-8 -*-
+# © 2016 Grupo ESOC Ingeniería de Servicios, S.L.U. - Jairo Llopis
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
+
+
+
+#  Partner
+#==========
+
+
+# der main_partner ist mit "noupdate" gekennzeichnet im base-Modul. Deshalb müssen wir ihn mit Python updaten:
+
+-  !python {model: res.partner, id: base.main_partner}: |
+      self.write({'country_id': ref('base.ch'), 'lastname': 'Tagesstrukturen Stadt Grossgeld', 'lang': 'de_DE', 'street_name': 'Unterlandstrasse', 'street_number': 55, 'zip': 8450, 'city': 'Grossgeld'})
+            
+     
+#- !record {model: res.partner, id: base.main_partner}:
+#      firstname:
+#      lastname: Tagesstrukturen Stadt Grossgeld
+#      active: True
+#      is_company: True
+#      customer: False      
+#      lang: de_DE
+#      street_name: Unterlandstrasse
+#      street_number: 55
+#      zip: 8450
+#      city: Grossgeld      
+      
+
+
+- !record {model: res.partner, id: kids_res_company_partner_1}:
+      firstname:
+      lastname: Tagesfamilien Heugümper
+      active: True
+      is_company: True
+      customer: False      
+      lang: de_DE
+      street_name: Heugümperstrasse
+      street_number: 455
+      zip: 8456
+      city: Grossgeld
+      country_id: base.ch
+
+-  !record {model: res.partner, id: kids_res_company_partner_2}:
+      firstname:
+      active: True
+      lastname: Tagesfamilien Maierisli
+      is_company: True
+      customer: False      
+      lang: de_DE
+      street_name: Sonnenstrasse
+      street_number: 87a
+      zip: 8456
+      city: Grossgeld
+      country_id: base.ch      
+
+-  !record {model: res.partner, id: kids_demo_user_partner}:
+      firstname: Kids Demo User
+      lastname:
+      active: True
+      customer: False
+      is_company: False
+      lang: de_DE
+
+
+
+#  Unternehmen
+#=================  
+
+
+# die main_company ist mit "noupdate" gekennzeichnet im base-Modul. Deshalb müssen wir sie mit Python updaten:
+
+-  !python {model: res.company, id: base.main_company}: |
+      self.write({'country_id': ref('base.ch'),
+                  'currency_id': ref('base.CHF'),
+                  'rml_header': 'Bei uns fühlen sich die Kiddies wohl!',
+                  'overdue_msg': """\
+      Sehr geehrte Dame, Sehr geehrter Herr
+
+      wir möchten Sie darauf aufmerksam machen, dass offene Rechnungen vorhanden sind, die noch nicht beglichen wurden. Sie finden die Details untenstehend.
+
+      Falls der offene Betrag in der Zwischenzeit beglichen wurde, ignorieren Sie bitte diese Mahnung. Andernfalls begleichen Sie den Ausstand bitte in den nächsten Tagen.
+
+      Falls Sie Fragen zu den Rechnungen haben, kontaktieren sie uns.
+
+      Besten Dank und mit freundlichen Grüssen\
+      """})
+            
+    
+-  !record {model: res.company, id: kids_res_company_1}: 
+      parent_id: base.main_company
+      partner_id: kids.kids_res_company_partner_1
+      name: Tagesfamilien Heugümper
+      custom_footer: False
+      overdue_msg: Sehr geehrte Dame, Sehr geehrter Herr
+      
+
+         wir möchten Sie darauf aufmerksam machen, dass offene Rechnungen vorhanden sind,
+         die noch nicht beglichen wurden. Sie finden die Details untenstehend.
+
+
+         Falls der offene Betrag in der Zwischenzeit beglichen wurde, ignorieren Sie bitte
+         diese Mahnung. Andernfalls begleichen Sie den Ausstand bitte in den nächsten Tagen.
+
+
+         Falls Sie Fragen zu den Rechnungen haben, kontaktieren sie uns.
+
+
+         Besten Dank und mit freundlichen Grüssen
+      rml_footer:
+      account_no:
+      country_id: base.ch
+      zip: 8755
+      currency_id: base.CHF
+
+    
+-  !record {model: res.company, id: kids_res_company_2}:
+      parent_id: base.main_company
+      partner_id: kids.kids_res_company_partner_2
+      name: Tagesfamilien Maierisli
+      custom_footer: False
+      overdue_msg: Sehr geehrte Dame, Sehr geehrter Herr
+      
+
+         wir möchten Sie darauf aufmerksam machen, dass offene Rechnungen vorhanden sind,
+         die noch nicht beglichen wurden. Sie finden die Details untenstehend.
+
+
+         Falls der offene Betrag in der Zwischenzeit beglichen wurde, ignorieren Sie bitte
+         diese Mahnung. Andernfalls begleichen Sie den Ausstand bitte in den nächsten Tagen.
+
+
+         Falls Sie Fragen zu den Rechnungen haben, kontaktieren sie uns.
+
+
+         Besten Dank und mit freundlichen Grüssen
+      rml_footer:
+      account_no:
+      country_id: base.ch
+      zip: 8755
+      currency_id: base.CHF
+      
+
+# ohne das hier geht der zugehörige Partner der Unternehmen doch wieder zu den Kunden (trotz obigem "customer: False" bei den Partnern)
+ 
+-  !python {model: res.partner, id: kids.kids_res_company_partner_1}: |
+      self.write({'customer': False})
+-  !python {model: res.partner, id: kids.kids_res_company_partner_2}: |
+      self.write({'customer': False})      
+      
+      
+
+#  User
+#=============
+
+# der base.user_root (Administrator) ist mit "noupdate" gekennzeichnet im Basis-Modul. Deshalb müssen wir ihn mit Python updaten (wie oben)
+
+-  !python {model: res.users, id: base.user_root}: |
+      self.write({'company_ids': [(6,0,[ref("base.main_company"),
+                                        ref("kids.kids_res_company_1"),
+                                        ref("kids.kids_res_company_2")])],
+                  'lang': 'de_DE',
+                  'tz': 'Europe/Zurich'})
+
+
+-  !record {model: res.users, id: kids_demo_user}:
+      partner_id: kids.kids_demo_user_partner
+      signup_expiration:
+      active: True
+      email: demo@kids.ch
+      login: kidsdemo
+      employee: True
+      is_company: False
+      customer: False
+      password: bla
+      lang: de_DE
+      tz: Europe/Zurich
+      property_product_pricelist: product.list0
+      #display_employees_suggestions: True
+      company_id: kids.kids_res_company_1
+      company_ids:
+         - kids.kids_res_company_1
+   
+   
+
+-  !python {model: res.users, id: kids_demo_user}: |
+      #self.write({'groups_id': [(4,ref("base.group_no_one"),0)]})
+      #self.write({'groups_id': [(6,0,[ref("base.group_no_one"),ref("base.group_partner_manager"),ref("base.group_user"),ref("account.group_account_invoice"),ref("base.group_multi_company"),ref("base.group_sale_salesman"),ref("share.group_share_user")])]})
+      self.write({'groups_id': [(6,0,[ref("base.group_sale_salesman"),ref("base.group_partner_manager"),ref("base.group_user"),ref("account.group_account_invoice"),ref("base.group_multi_company"),ref("share.group_share_user")])]})
+      #,ref("base.group_mono_salesteams")
+   
+    
+
+
+    

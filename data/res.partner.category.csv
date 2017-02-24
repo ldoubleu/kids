@@ -1,0 +1,7 @@
+id,active,create_date,create_uid/id,name,parent_id/id,child_ids/id
+kids.res_partner_category_Eltern,True,2017-01-20 12:42:32,base.user_root,Eltern,,
+kids.res_partner_category_Kind,True,2017-01-20 12:42:46,base.user_root,Kind,,
+kids.res_partner_category_Bezugsperson,True,2017-01-20 12:43:00,base.user_root,Bezugsperson,,
+kids.res_partner_category_Notfallkontakt,True,2017-01-20 12:49:34,base.user_root,Notfallkontakt,,
+kids.res_partner_category_Abholer,True,2017-01-20 12:49:40,base.user_root,Abholer,,
+kids.res_partner_category_Arzt,True,2017-01-20 12:49:43,base.user_root,Arzt,,

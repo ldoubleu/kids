@@ -1,0 +1,74 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#	* kids
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 8.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-01-27 21:09+0000\n"
+"PO-Revision-Date: 2017-01-27 21:09+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: kids
+#: model:res.partner.category,name:kids.res_partner_category_Abholer
+msgid "Abholer"
+msgstr "Collector"
+
+#. module: kids
+#: model:res.partner.category,name:kids.res_partner_category_Arzt
+msgid "Arzt"
+msgstr "Doctor"
+
+#. module: kids
+#: model:res.partner.category,name:kids.res_partner_category_Bezugsperson
+msgid "Bezugsperson"
+msgstr "Close Person"
+
+#. module: kids
+#: view:res.partner:kids.parents_children
+msgid "Children"
+msgstr "Children"
+
+#. module: kids
+#: model:res.partner.category,name:kids.res_partner_category_Eltern
+msgid "Eltern"
+msgstr "Parents"
+
+#. module: kids
+#: field:res.partner,is_Eltern:0
+msgid "Eltern?"
+msgstr "Are Parents?"
+
+#. module: partner_relations
+#: field:res.partner,search_relation_type_id:0
+msgid "Has relation of type"
+msgstr "Has relation of type"
+
+
+#. module: kids
+#: model:res.partner.category,name:kids.res_partner_category_Kind
+msgid "Kind"
+msgstr "Child"
+
+#. module: kids
+#: model:res.partner.category,name:kids.res_partner_category_Notfallkontakt
+msgid "Notfallkontakt"
+msgstr "Emergency Contact"
+
+#. module: kids
+#: model:ir.model,name:kids.model_res_partner
+msgid "Partner"
+msgstr "Partner"
+
+#. module: kids
+#: code:addons/kids/models/res_partner.py:54
+#, python-format
+msgid "Unsupported search operator \"%s\""
+msgstr "Unsupported search operator \"%s\""
+

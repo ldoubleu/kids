@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
 
-import common
-import test_kids
+import kids.tests.common
+import kids.tests.test_kids
 

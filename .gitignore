@@ -30,3 +30,4 @@ coverage.xml
 # Backup files
 *~
 *.swp
+/.pylintrc0
